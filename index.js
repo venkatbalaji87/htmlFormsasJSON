@@ -154,10 +154,56 @@ function removeSizeElement(e) {
         }                
 
         }
+
+        sizearray=[];
+    for(a=0;a<sizeInputs.length+1;a++){                 
+            var size_value = document.getElementById("size"+a).value;
+            sizearray.push(size_value);
+    }
+    
+    colorarray=[];
+    for(b=0;b<colorInputs.length+1;b++){                 
+        var color_value = document.getElementById("color"+b).value;
+        colorarray.push(color_value);
+    }
+
+    materialArray=[]
+    for(c=0;c<materialInputs.length+1;c++){                 
+        var material_value = document.getElementById("material"+c).value;
+        materialArray.push(material_value);
+}
+
+        var sizeArray = [];  
+        var colorarray=[];
+        var materialArray=[];  
+        var variantArray=[];           
+        for(i=0;i<sizeInputs.length+1;i++){
+            var test={ 
+              types :"Sizes",
+             Values : sizearray
+          }
+    }
+
+                for(d=0;d<colorInputs.length+1;d++){
+                    var test1={ 
+                    types :"Color",
+                    Values : colorarray
+                }
+            }
+
+            for(i=0;i<materialInputs.length+1;i++){
+                var test2={ 
+                types :"Material",
+                Values : materialArray
+            }
+            }
+    variantArray.push(test,test1,test2);
+
     var smallValues = {
         Product : product,
         BasePrice: basePrice,
         Description : description,
+        Variants : variantArray,
         VariantDetails: collectionsArray
     }
     smallarray.push(smallValues);
