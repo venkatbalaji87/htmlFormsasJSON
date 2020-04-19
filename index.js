@@ -171,33 +171,26 @@ function removeSizeElement(e) {
     for(c=0;c<materialInputs.length+1;c++){                 
         var material_value = document.getElementById("material"+c).value;
         materialArray.push(material_value);
-}
-
-        var sizeArray = [];  
-        var colorarray=[];
-        var materialArray=[];  
+    }
+  
         var variantArray=[];           
-        for(i=0;i<sizeInputs.length+1;i++){
-            var test={ 
+       
+            var sizeArrayData={ 
               types :"Sizes",
              Values : sizearray
           }
-    }
-
-                for(d=0;d<colorInputs.length+1;d++){
-                    var test1={ 
+   
+        var colorArrayData ={ 
                     types :"Color",
                     Values : colorarray
                 }
-            }
-
-            for(i=0;i<materialInputs.length+1;i++){
-                var test2={ 
+                       
+        var materialArrayData ={ 
                 types :"Material",
                 Values : materialArray
             }
-            }
-    variantArray.push(test,test1,test2);
+            
+    variantArray.push(sizeArrayData,colorArrayData,materialArrayData);
 
     var smallValues = {
         Product : product,
