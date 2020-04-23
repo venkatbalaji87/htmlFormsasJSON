@@ -1,128 +1,208 @@
-var counter = 1;
-function addVariant() {  
-  var types = document.getElementById("size-container");
-  var typeVariant = types.getElementsByTagName("input").length;
-  typeVariant--;     
-  var typesVariant = document.createElement('input');
-  typesVariant.type = "text";
-  typesVariant.setAttribute('id', 'types'+ counter);
-  typesVariant.setAttribute('name', 'typesValue' );
-  typesVariant.setAttribute("style", "margin-top :20px; margin-right: 20px");
-  typesVariant.setAttribute('placeholder', 'Variant type..'+(counter));
-  types.appendChild(typesVariant);
+var initialCounterValue = 1;
+function addingVariant() {  
+
+  var types = document.getElementById("variant-field-container");
+  var type_id = types.getElementsByTagName("input").length;    
+  var typesinput = document.createElement('input');
+  typesinput.type = "text";
+  typesinput.setAttribute('id', 'type'+ initialCounterValue);
+  typesinput.setAttribute('name', 'Type' );
+  typesinput.setAttribute('style', 'margin-top:20px;');
+  typesinput.setAttribute('class', 'form-control');
+  typesinput.setAttribute('placeholder', 'Variant type..'+(initialCounterValue+1));
+
+  types.appendChild(typesinput);
   
-  var value_id = types.getElementsByTagName("input").length;
-  var mybr = document.createElement('br');          
-  var valueVariant = document.createElement('input');
-  valueVariant.type = "text";
-  valueVariant.setAttribute('id', 'values'+ counter);
-  valueVariant.setAttribute('name', 'valuesValue' );
-  valueVariant.setAttribute("style", "margin-top :20px; margin-bottom:20px;");
-  valueVariant.setAttribute('placeholder', 'Variant Value..'+(counter));
-  types.appendChild(valueVariant);
-  types.appendChild(mybr);
-  counter++;  
+  var values = document.getElementById("value-field-container");
+  var value_id = values.getElementsByTagName("input").length;
+            
+  var Valuesinput = document.createElement('input');
+  Valuesinput.type = "text";
+  Valuesinput.setAttribute('id', 'value'+ initialCounterValue);
+  Valuesinput.setAttribute('name', 'Value' );
+  Valuesinput.setAttribute('style', 'margin-top:20px;');
+  Valuesinput.setAttribute('class', 'form-control');
+  Valuesinput.setAttribute('placeholder', 'Variant Value..'+(initialCounterValue+1));
+  
+  types.appendChild(Valuesinput);
+  initialCounterValue++;  
+
 }
-   
-var collectionsArray = [];
-  
-var outerArray=[];
-var innerArray=[];
-var smallarray=[];
-var h;
+ 
 
-function createVariantAddOn(){
 
-    var product = document.getElementById("product").value;
-    var description = document.getElementById("description").value;
-    var basePrice = document.getElementById("basePrice").value;
-
-    var values = document.getElementById("size-container");
-    var typeVariantValues = values.getElementsByTagName("input").length;
-
-    sizearray=[];
-
-    for(var a=1;a<typeVariantValues.length+1;a++) {                 
-      var variant_json = {
-        type : document.getElementById("types"+a).value,
-        value : (document.getElementById("values"+a).value).split(','),
-     }
-        sizearray.push(variant_json);
-    }
-
-    for(let j=0;j<Math.floor((typeVariantValues.length+1)/2);j++){     
-      var json=  (document.getElementById("values"+j).value).split(',');
-      innerArray.push(json);
+var gettingResult ;
+function generateInputFields(){
+  var typeElements = document.getElementById("variant-field-container");
+  var typeInputs = typeElements.getElementsByTagName("input");
+  var valueElements = document.getElementById("value-field-container");
+  var valueInputs = valueElements.getElementsByTagName("input");
+  addonInputFieldArray = [];
+          
+  for(let j=0;j<Math.floor((typeInputs.length+1)/2);j++){     
+      var input_json=  (document.getElementById("value"+j).value).split(',');
+      addonInputFieldArray.push(input_json);
   }
 
-    function combos(list, n = 0, result = [], current = []){
-      if (n === list.length) result.push(current)
-      else list[n].forEach(item => combos(list, n+1, result, [...current, item]))
-   
-      return result
+function gettingAddons(items){
+  result = items.reduce((a, b) => a.reduce((r, v) => r.concat(b.map(w => [].concat(v, w))), []));
+    return result
+}
+
+
+gettingResult = (gettingAddons(addonInputFieldArray));
+ 
+console.log(gettingResult);
+ 
+
+for(var addons = 0; addons < gettingResult.length;addons++)
+{
+  var addon = document.getElementById("addon-field-container");
+  var addon_id = addon.getElementsByTagName("input").length;
+  addon_id++;      
+  var addon_input = document.createElement('input');
+  addon_input.type = "text";
+  addon_input.setAttribute('id', 'addons'+ addons);
+  addon_input.setAttribute('class', 'form-control');
+  addon_input.setAttribute('style','margin-top: 15px;');
+  addon_input.setAttribute('placeholder', 'Kindly add Addon Value for..'+gettingResult[addons]);
+  addon.appendChild(addon_input);
+  
+}
+
+var buttons = document.createElement('button')
+var addon = document.getElementById("addon-field-container");
+buttons.setAttribute('class','btn btn-primary');
+buttons.setAttribute('style','margin-top: 15px;');
+buttons.setAttribute('id','details');
+buttons.setAttribute('onclick','JsonFile()');
+buttons.innerHTML="Variant Details";
+addon.appendChild(buttons);
+
+}
+
+function JsonFile(){
+  var product = document.getElementById("product").value;
+  var description = document.getElementById("description").value;
+  var basePrice = document.getElementById("basePrice").value; 
+  var typeElements = document.getElementById("variant-field-container");
+  var typeInputs = typeElements.getElementsByTagName("input");
+  var valueElements = document.getElementById("value-field-container");
+  var valueInputs = valueElements.getElementsByTagName("input");
+  var addon = document.getElementById("addon-field-container");
+  var addonInputs = addon.getElementsByTagName("input");
+
+  var productArray = [];
+  var finalArray = [];
+  var temp = [];
+
+  
+  //Variants
+
+for(let e = 0 ; e<Math.floor((typeInputs.length+1)/2);e++){
+  
+  var json_1 = {
+     type : document.getElementById("type"+e).value,
+     value : (document.getElementById("value"+e).value).split(','),
   }
-  
-   h = (combos(sizearray));
-  
-  
-  for(let z = 0; z < h.length;z++)
-  {
-    var addon = document.getElementById("addon-container");
-    var addon_id = addon.getElementsByTagName("input").length;
-    addon_id++;      
-    var addon_1 = document.createElement('input');
-    addon_1.type = "text";
-    addon_1.setAttribute('id', 'Addon'+ z);
-    addon_1.setAttribute('name', 'Addon' );
-    addon_1.setAttribute('class', 'form-control');
-    addon_1.setAttribute('placeholder', 'addon Value..'+h[z]);
-    addon_1.setAttribute('aria-label', 'Username');
-    addon_1.setAttribute('aria-describedby', 'basic-addon1');
-    addon.appendChild(addon_1);
     
-  }
-  
-  var buttons = document.createElement('button')
-  var addon = document.getElementById("addon-container");
-  buttons.setAttribute('class','btn btn-primary');
-  buttons.setAttribute('style','margin-top: 15px;');
-  buttons.setAttribute('id','details');
-  buttons.setAttribute('onclick','JsonFile()');
-  buttons.innerHTML="Variant Details";
-  addon.appendChild(buttons);
-  console.log('loop end');
-    
-  console.log(sizearray);
-  
+  temp.push(json_1)
+}
 
-    var smallValues = {
-        Product : product,
-        BasePrice: basePrice,
-        Description : description,
-        Variants : sizearray
+
+//variable Inputs
+
+
+var output = [];
+
+function getFields(input, field) {
+  for (var i=0; i < input.length ; ++i)
+      output.push(input[i][field]);
+  return output;
+}
+
+var result = getFields(temp, "type");
+
+console.log(output);
+
+const flattend = gettingResult.flat();
+
+
+var variblevariants = [];
+for(let i = 0;i<flattend.length;i++){
+  for (let j = 0;j<Math.floor((typeInputs.length+1)/2);j++){
+    var variableDynamicJson = {
+      [output[j]] : flattend[i]
     }
-
-    smallarray.push(smallValues);
-
-    console.log(smallarray)
-
-
-    var string = JSON.stringify(smallarray);
-    document.getElementById("Json").innerHTML = string;
-    console.log(smallarray);
+    i++;
+    variblevariants.push(variableDynamicJson)
   }
+  i--;
+}
+console.log(variblevariants);
+
+var sliceObject = {};
+var inputTake = Math.floor((typeInputs.length+1)/2);
+var temporary = inputTake;
+var slixeArray = [];
+for(let i =0;i<variblevariants.length;i++){
+  sliceObject= (variblevariants.slice(i,inputTake))
+ slixeArray.push(sliceObject)
+ i = inputTake - 1;
+ inputTake = inputTake + temporary;
+ }
+
+console.log(slixeArray);
 
 
-    // var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(smallarray));
+for(let i = 0; i < gettingResult.length;i++){
+  var addonObject = {addOnPrice : document.getElementById("addons"+i).value};
+  slixeArray[i].push(addonObject);
+}
 
-    // var a = document.createElement('a');
-    // a.href = 'data:' + data;
-    // a.download = 'data.json';
-    // a.innerHTML = 'download JSON';
+console.log(slixeArray);
 
-    // var download = document.getElementById('download');
-    // download.appendChild(a);
+var finalVariantVairables = [];
+
+for(let i =0 ; i < slixeArray.length ; i++){
+  finalVariantVairables.push(slixeArray[i].reduce(((r, c) => Object.assign(r, c)), {}))
+}
+
+console.log(finalVariantVairables)
+
+
+
+// final json
+
+
+productArray.push({
+    Product : product,
+    BasePrice: basePrice,
+    Description : description,
+    Variants : temp,
+    VariantDetails: finalVariantVairables
+});
+
+
+// json conversion
+
   
-  
-  
+  var string = JSON.stringify(productArray);
+  document.getElementById("Json").innerHTML = string;
 
+  var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(productArray));
+
+  var a = document.createElement('a');
+  a.href = 'data:' + data;
+  a.download = 'data.json';
+  a.innerHTML = 'download JSON';
+
+  var download = document.getElementById('download');
+  download.appendChild(a);
+}
+
+
+
+
+
+    

@@ -8,36 +8,35 @@
 </head>
 
 <body class="container">
-  <div class="container" style="margin-top: 50px; margin-left: 50px;">
+  <label>Product Name :</label>
+  <input type="text" class="form-control" placeholder="productName" id="product" name="Product"
+    aria-describedby="basic-addon1">
 
-    <label>Product: </label>
-    <input type="text"  id="product" name="Product"> <br><br>
-    <label>Base Price: </label>
-    <input type="text"  id="basePrice" name="BasePrice"><br><br>
-    <label>Description: </label>
-    <input type="text"  id="description" name="Description"><br><br>
-    <button type="button" class= "btn btn-primary" onclick="addVariant()">Add Variant</button>
-    <div id="size-container">
+
+  <label>Base Price :</label>
+  <input type="text" class="form-control" placeholder="basePrice" id="basePrice" aria-describedby="basic-addon1">
+
+  <label>Description :</label>
+  <input type="text" class="form-control" aria-label="With textarea" placeholder="Description" id="description"><br>
+
+
+  <button type="button" onclick="addingVariant()" class="btn btn-primary" style="margin-top: 15px;">Add Variant</button>
+  <div id="addVariants" style="margin-top: 20px;">
+    <div id="variant-field-container">
+      <input id="type0" type="text" class="form-control" placeholder="Variant type..1" aria-label="Username" >
+      <input id="value0" type="text" class="form-control" placeholder="Variant value..1" aria-label="Username" style="margin-top: 20px;">
+    </div><br>
+    <div id="value-field-container">
 
     </div>
-
-    <button type=" button" class= "btn btn-primary" onclick="createVariantAddOn()" style="margin-top: 20px;"> Generate Variant </button>
-
-
-    <div id="addon-container" style="margin-top: 20px;">
-
+    <button type="button" onclick="generateInputFields()" class="btn btn-primary" style="margin-top: 15px;">Generate
+      Variant</button><br>
+    <div id="addon-field-container">
     </div>
-
-    <br> <br>
-
-    
-
-    <div id="Json"></div>
-
-    <div id="download"></div>
-
   </div>
-
+  <div id="Json"></div>
+  <div id="download"></div>
+  </div>
 
 
 
