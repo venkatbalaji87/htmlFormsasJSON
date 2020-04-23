@@ -93,8 +93,8 @@ function JsonFile(){
   var addonInputs = addon.getElementsByTagName("input");
 
   var productArray = [];
-  var finalArray = [];
-  var temp = [];
+
+  var variantsArray = [];
 
   
   //Variants
@@ -106,7 +106,7 @@ for(let e = 0 ; e<Math.floor((typeInputs.length+1)/2);e++){
      value : (document.getElementById("value"+e).value).split(','),
   }
     
-  temp.push(json_1)
+  variantsArray.push(json_1)
 }
 
 
