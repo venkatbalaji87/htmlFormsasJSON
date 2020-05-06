@@ -57,7 +57,7 @@ function convert_millions(num) {
   function convert(num) {
     if (num == 0 || num<0) return "Don't input zero or less than zero";
     else if(num>999999999999999) return "Number exceed more than trillion!!"
-    else return convert_billions(num);
+    else return convert_trillions(num);
   }
   
 
