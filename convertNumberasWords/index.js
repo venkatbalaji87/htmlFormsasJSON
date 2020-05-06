@@ -1,33 +1,68 @@
-  function NumInWords(number) {
-    const units = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
-    const tensNumber = ['', '', 'Twenty','Thirty','Forty','fifty', 'Sixty','Seventy','Eighty','Ninety'];
-    const aboveThousand = ['', 'Thousand', 'Million', 'Billion', 'Trillion'];
-    let word = '';
-    if(number<0 || number == 0 ) {
-        return "Kindly don't enter negative or zero!!";
-    } else if(number> 999999999999999) {
-        return 'Number exceed more than trillion!'
-    } else {
-    for (let i = 0; i < aboveThousand.length; i++) {
-      let changeNumber = number%(100*Math.pow(1000,i));
-      if (Math.floor(changeNumber/Math.pow(1000,i)) !== 0) {
-        if (Math.floor(changeNumber/Math.pow(1000,i)) < 20) {
-          word = units[Math.floor(changeNumber/Math.pow(1000,i))] + aboveThousand[i] + ' ' + word;
-        } else {
-          word = tensNumber[Math.floor(changeNumber/(10*Math.pow(1000,i)))] + '-' + units[Math.floor(changeNumber/Math.pow(1000,i))%10] + aboveThousand[i] + ' ' + word;
-        }
-      }
-      changeNumber = number%(Math.pow(1000,i+1));
-      if (Math.floor(changeNumber/(100*Math.pow(1000,i))) !== 0) word = units[Math.floor(changeNumber/(100*Math.pow(1000,i)))] + 'Hunderd ' + word;
-    }
- } 
-    return word; 
+var ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+var tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+var teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen',
+  'nineteen'
+];
+
+function convert_trillions(num) {
+  if (num >= 1000000000000) {
+    return convert_trillions(Math.floor(num / 1000000000000)) + " trillion " + convert_billions(num % 1000000000000);
+  } else {
+    return convert_billions(num);
+  }
 }
+
+
+function convert_billions(num) {
+  if (num >= 1000000000) {
+    return convert_billions(Math.floor(num / 1000000000)) + " billion " + convert_millions(num % 1000000000);
+  } else {
+    return convert_millions(num);
+  }
+}
+
+
+function convert_millions(num) {
+    if (num >= 1000000) {
+      return convert_millions(Math.floor(num / 1000000)) + " million " + convert_thousands(num % 1000000);
+    } else {
+      return convert_thousands(num);
+    }
+  }
+  
+  function convert_thousands(num) {
+    if (num >= 1000) {
+      return convert_hundreds(Math.floor(num / 1000)) + " thousand " + convert_hundreds(num % 1000);
+    } else {
+      return convert_hundreds(num);
+    }
+  }
+  
+  function convert_hundreds(num) {
+    if (num > 99) {
+      return ones[Math.floor(num / 100)] + " hundred " + convert_tens(num % 100);
+    } else {
+      return convert_tens(num);
+    }
+  }
+  
+  function convert_tens(num) {
+    if (num < 10) return ones[num];
+    else if (num >= 10 && num < 20) return teens[num - 10];
+    else {
+      return tens[Math.floor(num / 10)] + " " + ones[num % 10];
+    }
+  }
+  
+  function convert(num) {
+    if (num == 0 || num<0) return "Don't input zero or less than zero";
+    else if(num>999999999999999) return "Number exceed more than trillion!!"
+    else return convert_billions(num);
+  }
+  
 
 function getInput() {
-    var number = document.getElementById("inputTextValue").value;
-    document.getElementById("convertedToWords").innerHTML = NumInWords(number)
+    var num = document.getElementById("inputTextValue").value;
+    document.getElementById("convertedToWords").innerHTML = convert(num)
 }
-
- 
 
